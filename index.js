@@ -7,23 +7,33 @@ const quote = document.getElementById('quote');
         console.log(quoteInfo)
     }
         
-        async function getQuote(category){
-            const apiURL = `https://api.api-ninjas.com/v1/key=${Key}quotes?category= + ${category}`;
+        async function getQuote(){
+            const url = 'https://quotes21.p.rapidapi.com/quote';
+const options = {
+	method: 'GET',
+	headers: {
+		'x-rapidapi-key': '8006386eadmsh942a44b02379ad6p12b2bdjsn4a7cdfcd1e53',
+		'x-rapidapi-host': 'quotes21.p.rapidapi.com'
+	}
+};
 
-            const response = await fetch(apiURL);
-            if(!response.ok){
-                document.getElementById('error').innerHTML = 'could not fetch quote';
-            }
-            else{
-            return await response.json();
-            }
+try {
+	const response = await fetch(url, options);
+	const result = await response.text();
+	console.log(result);
+    return result;
+} catch (error) {
+	console.error(error);
+}
+
+            
         }
 
         submitButton.onclick = async function submit(){
-            const categorysel = category.value;
-            if(categorysel){
+           
+            
                 try{
-                    const quoteData = await getQuote(categorysel);
+                    const quoteData = await getQuote();
                     displayQuote(quoteData);
                     
                 }
@@ -32,7 +42,4 @@ const quote = document.getElementById('quote');
                 }
         
             }
-            else{
-                document.getElementById('error').innerHTML = 'Please type in a category'
-            }
-        }    
+              
